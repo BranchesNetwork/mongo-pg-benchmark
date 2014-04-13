@@ -4,15 +4,16 @@ Comparing MongoDB and PostgresSQL performance
 
 ## Information
 
-This is in fact a comparison of the ODMs `Sequelize` and `Mongoose`.
-They provide a thin object-oriented wrapper, simplifying the experiment.
+This is in fact a comparison of the ODMs `Sequelize` and `Mongoose`,
+but they provide a thin object-oriented wrapper, simplifying the experiment.
 
 ## Summary
 
-MongoDB is the winner in fast bulk insertion, approximately beating
-Postgres by a factor of two.
+MongoDB wins at fast data insertion, beating
+Postgres by a factor of two, approximately.
+The write concern is the default of Mongoose.
 
-Posgres is faster by factors of 6 to 8 at retrieving records.
+Postgres is generally faster by factors of two up to eight at retrieving records.
 
 Querying speed has not yet been tested, just bulk insertion and retrieval.
 
