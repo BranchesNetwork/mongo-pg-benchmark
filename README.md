@@ -9,49 +9,93 @@ They provide a thin object-oriented wrapper, simplifying the experiment.
 
 ## Summary
 
-MongoDB is the winner in fast bulk insertion, approximately beating
+MongoDB wins at fast data insertion, approximately beating
 Postgres by a factor of two.
 
-Posgres is faster by factors of 6 to 8 at retrieving records.
+Postgres is faster by factors of 3 up to 6 to 8 at retrieving records.
 
-Querying speed has not yet been tested, just bulk insertion and retrieval.
+Postgres beats MongoDB at unindexed querying on unindexed searche.
+See 'select year < 1990':  `24522.07 ms` vs. `426.3041 ms` - 57 times faster (!)
+and 'select country = Germany': `319 ms` vs. `13 ms` - 25 times faster
 
-## Example output
+## Conclusion
 
-2.6 GHz i7, SSD, 1600 MHz RAM
+MongoDB is excellent for inserting massive amounts of data in a short time.
+
+Querying is very expensive in MongoDB. If you have a relational schema, you
+should probably not use MongoDB. PostgreSQL (or MySQL) was built for that.
+
+## Results
+
+2.6 GHz i7, SSD, 1600 MHz RAM - 6000 records, 10 repetitions per test
 
 ```
-Insert Speed: mongo done, took 293.583605 ms
-mongo Retrieval Speed 100 records: took 45.443006 ms
-mongo Retrieval Speed 100 records: took 49.592159 ms
-mongo Retrieval Speed 100 records: took 54.407546 ms
-mongo Retrieval Speed 100 records: took 58.712867 ms
-mongo Retrieval Speed 100 records: took 62.772652 ms
-mongo Retrieval Speed 100 records: took 66.999733 ms
-mongo Retrieval Speed 100 records: took 71.208196 ms
-mongo Retrieval Speed 100 records: took 75.13282 ms
-mongo Retrieval Speed 100 records: took 78.863108 ms
-mongo Retrieval Speed 100 records: took 83.861088 ms
-mongo Retrieval Speed 100 records: took 89.806252 ms
-mongo Retrieval Speed 100 records: took 93.977211 ms
-mongo Retrieval Speed 100 records: took 109.348588 ms
-mongo Retrieval Speed 100 records: took 112.252486 ms
-mongo Retrieval Speed - average 100 records: 75.16983657142858 ms
-
-Insert Speed: pg done, took 557.787418 ms
-Retrieval Speed 100 records: pg done, took 9.915686 ms
-Retrieval Speed 100 records: pg done, took 14.415878 ms
-Retrieval Speed 100 records: pg done, took 19.234453 ms
-Retrieval Speed 100 records: pg done, took 23.576441 ms
-Retrieval Speed 100 records: pg done, took 28.545071 ms
-Retrieval Speed 100 records: pg done, took 32.073767 ms
-Retrieval Speed 100 records: pg done, took 38.935411 ms
-Retrieval Speed 100 records: pg done, took 42.080887 ms
-Retrieval Speed 100 records: pg done, took 45.730525 ms
-Retrieval Speed 100 records: pg done, took 48.278625 ms
-Retrieval Speed 100 records: pg done, took 51.097523 ms
-Retrieval Speed 100 records: pg done, took 53.610918 ms
-Retrieval Speed 100 records: pg done, took 56.08786 ms
-Retrieval Speed 100 records: pg done, took 58.482034 ms
-pg Retrieval Speed - average 100 records: 37.29036278571429 ms
+mongo insert 110600.124383 ms
+mongo select * 6000 results 10228.704654 ms
+mongo select * 6000 results 10387.470111 ms
+mongo select * 6000 results 10571.904192 ms
+mongo select * 6000 results 10770.523981 ms
+mongo select * 6000 results 10924.32811 ms
+mongo select * 6000 results 20112.593777 ms
+mongo select * 6000 results 20302.456227 ms
+mongo select * 6000 results 20462.099967 ms
+mongo select * 6000 results 20676.047836 ms
+mongo select * 6000 results 20832.672556 ms
+mongo select * - average 6000 results 15526.880141100002 ms
+mongo 'select year < 1990' 2691 results, 20499.428586 ms
+mongo 'select year < 1990' 2691 results, 20575.62174 ms
+mongo 'select year < 1990' 2691 results, 20709.330657 ms
+mongo 'select year < 1990' 2691 results, 20807.850058 ms
+mongo 'select year < 1990' 2691 results, 20881.157154 ms
+mongo 'select year < 1990' 2691 results, 20955.201467 ms
+mongo 'select year < 1990' 2691 results, 30029.146597 ms
+mongo 'select year < 1990' 2691 results, 30160.426968 ms
+mongo 'select year < 1990' 2691 results, 30264.517867 ms
+mongo 'select year < 1990' 2691 results, 30338.061327 ms
+mongo 'select year < 1990' - average 2691 results, 24522.074242099996 ms
+mongo 'select country = Germany' 28 results, 307.542973 ms
+mongo 'select country = Germany' 28 results, 309.108031 ms
+mongo 'select country = Germany' 28 results, 310.997636 ms
+mongo 'select country = Germany' 28 results, 314.473025 ms
+mongo 'select country = Germany' 28 results, 316.161167 ms
+mongo 'select country = Germany' 28 results, 318.805885 ms
+mongo 'select country = Germany' 28 results, 326.834587 ms
+mongo 'select country = Germany' 28 results, 328.549462 ms
+mongo 'select country = Germany' 28 results, 330.558811 ms
+mongo 'select country = Germany' 28 results, 332.540823 ms
+mongo 'select country = Germany' - average 28 results, 319.55724 ms
+pg insert 220913.492809 ms
+pg select * 6000 results 196.13888 ms
+pg select * 6000 results 365.618251 ms
+pg select * 6000 results 535.695522 ms
+pg select * 6000 results 703.190442 ms
+pg select * 6000 results 865.607623 ms
+pg select * 6000 results 10028.520168 ms
+pg select * 6000 results 10221.586682 ms
+pg select * 6000 results 10392.897515 ms
+pg select * 6000 results 10560.681894 ms
+pg select * 6000 results 10724.345761 ms
+pg select * - average 6000 results 5459.428273799999 ms
+pg 'select year < 1990' 2691 results, 68.56179 ms
+pg 'select year < 1990' 2691 results, 156.332982 ms
+pg 'select year < 1990' 2691 results, 224.469333 ms
+pg 'select year < 1990' 2691 results, 314.285658 ms
+pg 'select year < 1990' 2691 results, 383.760723 ms
+pg 'select year < 1990' 2691 results, 470.28014 ms
+pg 'select year < 1990' 2691 results, 536.615844 ms
+pg 'select year < 1990' 2691 results, 625.53032 ms
+pg 'select year < 1990' 2691 results, 700.413224 ms
+pg 'select year < 1990' 2691 results, 782.791488 ms
+pg 'select year < 1990' - average 2691 results, 426.3041502 ms
+pg 'select country = Germany' 28 results, 5.151132 ms
+pg 'select country = Germany' 28 results, 7.341867 ms
+pg 'select country = Germany' 28 results, 10.137447 ms
+pg 'select country = Germany' 28 results, 11.193245 ms
+pg 'select country = Germany' 28 results, 12.526706 ms
+pg 'select country = Germany' 28 results, 13.823294 ms
+pg 'select country = Germany' 28 results, 15.151269 ms
+pg 'select country = Germany' 28 results, 16.655433 ms
+pg 'select country = Germany' 28 results, 18.119123 ms
+pg 'select country = Germany' 28 results, 19.427531 ms
+pg 'select country = Germany' - average 28 results, 12.952704700000002 ms
 ```
